@@ -1,0 +1,72 @@
+ugadores_torneo=[]
+
+def registrar_puntaje():
+    id_Jugador = input("ingrese el ID del jugador\n>")
+    nombre = input("ingrese el nombre real del jugador\n")
+    apellido = input("ingrese el apellido del jugador\n>")
+    while True:
+        juego = input("ingrese el juego del jugador fortnite/fifa/valorant\n>").lower()
+        if juego=="fortnite" or juego=="fifa" or juego=="valorant":
+            break
+        else:
+            print("juego no existente o tipo no existente")
+    while True:
+        Tipo = input("ingrese el tipo o nivel de jugador principiante/intermedio/avanzado\n>").lower()
+        if Tipo=="principiante" or Tipo=="intermedio" or Tipo=="avanzado":
+            break
+        else:
+            print("error al ingresar un dato")
+    puntaje = int(input("ingrese su puntaje:\n>"))
+    datos={
+        "id_jugador": id_Jugador,
+        "nombre": nombre,
+        "apellido": apellido,
+        "juego": juego,
+        "Tipo": Tipo,
+        "puntaje": puntaje,
+        }
+    jugadores_torneo.append(datos)
+
+def Listar_los_puntajes():
+    if len(jugadores_torneo)==0:
+        print("error no hay ningun jugador")
+        return
+    else:
+        for lista in jugadores_torneo:
+            print(lista)
+
+def imprimir_tipo():
+    calidad={"principiante","intermedio","avanzado"}
+    print("Tipos de jugadores:".join(calidad))
+    Tipo_jugador= input("ingrese el tipo de jugador que desea obtener: ")
+    if Tipo_jugador=="principiante" or Tipo_jugador=="intermedio" or Tipo_jugador=="avanzado":
+        print(f"Tipo de jugador seleccionado:{Tipo_jugador}")
+        with open(f"lista_puntajes{Tipo_jugador}.txt","w") as file:
+            for jugador in jugadores_torneo:
+                if jugador["Tipo"] == Tipo_jugador:
+                    file.write(f"{jugador["id_jugador"]}")
+                    file.write(f"{jugador["nombre"]}")
+                    file.write(f"{jugador["apellido"]}")
+                    file.write(f"{jugador["juego"]}")
+                    file.write(f"{jugador["Tipo"]}")
+                    file.write(f"{jugador["puntaje"]}")
+def menu():
+    while True:
+        print("-"*9,"TORNEO","-"*9)
+        print("1.-registrar puntajes\n2.-listar todos los puntajes\n3.- imprimir por tipo\n4.-salir del programa")
+        try:
+            opcion=int(input(">"))
+            if opcion<1 or opcion>4:
+                print("error opcion no valida")
+            elif opcion==1:
+                registrar_puntaje()
+            elif opcion==2:
+                Listar_los_puntajes()
+            elif opcion==3:
+                imprimir_tipo()
+            elif opcion==4:
+                break
+        except ValueError as error:
+            print("error",error,"dato no valido")
+
+menu()
